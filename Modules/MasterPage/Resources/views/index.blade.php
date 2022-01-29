@@ -1,10 +1,9 @@
-
 @extends('adminlte::page')
 
 @section('title', 'AdminLTE')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">$STUDLY_NAME$</h1>
+<h1 class="m-0 text-dark">Master Page</h1>
 @stop
 
 @section('content')
@@ -33,10 +32,37 @@
           <thead>
             <tr>
               <th>Aksi</th>
+              <th>Nama</th>
+              <th>URL</th>
+              <th>Icon</th>
+              <th>Urutan</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
-            
+            @foreach($data as $d)
+            <tr>
+              <td></td>
+              <td>{{$d->nama}}</td>
+              <td>{{$d->url}}</td>
+              <td><i class="{{$d->icon}}"></i></td>
+              <td>{{$d->urutan}}</td>
+              <td>{{$d->status}}</td>
+            </tr>
+            @if(count($d->childPage)>0)
+            @foreach($d->childPage as $cp)
+            <tr>
+              <td></td>
+              <td style="text-align:center">{{$cp->nama}}</td>
+              <td style="text-align:center">{{$cp->url}}</td>
+              <td><i class="{{$cp->icon}}"></i></td>
+              <td>{{$cp->urutan}}</td>
+              <td>{{$cp->status}}</td>
+            </tr>
+            @endforeach
+            @endif
+            @endforeach
+
           </tbody>
         </table>
       </div>

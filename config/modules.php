@@ -38,6 +38,7 @@ return [
             // 'assets/sass/app' => 'Resources/assets/sass/app.scss',
             // 'webpack' => 'webpack.mix.js',
             // 'package' => 'package.json',
+
         ],
         'replacements' => [
             'routes/web' => ['LOWER_NAME', 'STUDLY_NAME'],
@@ -57,7 +58,7 @@ return [
                 'PROVIDER_NAMESPACE',
             ],
         ],
-        'gitkeep' => true,
+        'gitkeep' => false,
     ],
     'paths' => [
         /*
@@ -101,18 +102,18 @@ return [
         */
         'generator' => [
             'config' => ['path' => 'Config', 'generate' => true],
-            'command' => ['path' => 'Console', 'generate' => true],
+            'command' => ['path' => 'Console', 'generate' => false],
             'migration' => ['path' => 'Database/Migrations', 'generate' => false],
             'seeder' => ['path' => 'Database/Seeders', 'generate' => false],
             'factory' => ['path' => 'Database/factories', 'generate' => false],
             'model' => ['path' => 'Entities', 'generate' => true],
             'routes' => ['path' => 'Routes', 'generate' => true],
             'controller' => ['path' => 'Http/Controllers', 'generate' => true],
-            'filter' => ['path' => 'Http/Middleware', 'generate' => true],
+            'filter' => ['path' => 'Http/Middleware', 'generate' => false],
             'request' => ['path' => 'Http/Requests', 'generate' => true],
             'provider' => ['path' => 'Providers', 'generate' => true],
             'assets' => ['path' => 'Resources/assets', 'generate' => true],
-            'lang' => ['path' => 'Resources/lang', 'generate' => true],
+            'lang' => ['path' => 'Resources/lang', 'generate' => false],
             'views' => ['path' => 'Resources/views', 'generate' => true],
             'test' => ['path' => 'Tests/Unit', 'generate' => false],
             'test-feature' => ['path' => 'Tests/Feature', 'generate' => false],

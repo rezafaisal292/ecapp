@@ -13,14 +13,40 @@ class MasterTable extends Migration
      */
     public function up()
     {
-        Schema::create('mst_menu', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->string('name',20);
-            $table->string('url',20);
-            $table->string('icon',20);
-            $table->uuid('child')->nullable();
-            $table->boolean('aktif');
+        Schema::create('master_page', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('nama',30);
+            $table->string('url',30);
+            $table->string('icon',30)->nullable();
+            $table->uuid('parent')->nullable();
+            $table->integer('urutan');
+            $table->char('status',1);
             $table->timestamps();
+        });
+        Schema::create('master_option_group', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name', 150);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['id', 'name']);
+        });
+
+        Schema::create('master_option_value', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('option_group_id');
+            $table->string('key', 150);
+            $table->string('value', 150);
+            $table->integer('sequence');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['id', 'option_group_id', 'key']);
+
+            $table->foreign('option_group_id')
+                ->references('id')
+                ->on('master_option_group')
+                ->onDelete('cascade');
         });
     }
 
@@ -31,6 +57,8 @@ class MasterTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mst_menu');
+        Schema::dropIfExists('master_page');
+        Schema::dropIfExists('master_option_group');
+        Schema::dropIfExists('master_option_value');
     }
 }

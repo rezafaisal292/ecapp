@@ -13,5 +13,5 @@
 
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('$LOWER_NAME$', '$STUDLY_NAME$Controller');
+    Route::resource('opsi', 'OpsiController');
     });
