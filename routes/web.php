@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +26,3 @@ return view ('auth.login');
     // return view(auth()->check() ? 'home' : 'auth.login');
 });
 Auth::routes();
-

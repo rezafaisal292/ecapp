@@ -26,7 +26,9 @@ class OpsiController extends Controller
      */
     public function create()
     {
-        return view('opsi::create');
+
+        $d = new OptionGroup;
+        return view('opsi::form',compact('d'));
     }
 
     /**

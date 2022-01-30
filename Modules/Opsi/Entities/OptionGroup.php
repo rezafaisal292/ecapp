@@ -52,6 +52,6 @@ class OptionGroup extends Model
             return $request->per_page === 'All' ? $q->get() : $q->paginate($request->per_page);
         }
 
-        return $q->paginate(10);
+        return $q->Paginate(10);
     }
 }
