@@ -15,7 +15,7 @@ class OptionGroup extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
+        'name','created_at','updated_at'
     ];
 
     /**
@@ -47,7 +47,6 @@ class OptionGroup extends Model
 
         $q = $query->select(array_merge($this->fillable, ['id']))
             ->orderBy('name');
-
         if ($request->has('per_page')) {
             return $request->per_page === 'All' ? $q->get() : $q->paginate($request->per_page);
         }

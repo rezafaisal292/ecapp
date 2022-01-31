@@ -40,6 +40,7 @@ $segment = request()->segment(1);
               <th>Aksi</th>
               <th>Opsi Group</th>
               <th>Opsi Detail</th>
+              <th>TimeStamps</th>
             </tr>
           </thead>
           <tbody>
@@ -48,15 +49,15 @@ $segment = request()->segment(1);
               <td>
                 <div class="btn-group"><button class="btn btn-default">Aksi</button><button class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown"><span class="sr-only"></span>
                     <div class="dropdown-menu" role="menu">
-                      <a href="route($uri . '.edit', $parameter['id']) . '" class="dropdown-item" rel="action" title="edit">
+                      <a href="#" class="dropdown-item confirmAlert" title="edit"  data-id="a">
                         Edit
                       </a>
-                      <a href="route($uri . '.destroy', $parameter['id']) . '" class="dropdown-item" rel="delete" title="delete">
-                        Update
+                      <a href="#" class="dropdown-item confirmAlert"  title="delete">
+                        Delete
                       </a>
                     </div>
-                  </button>
 
+                  </button>
 
               </td>
               <td>{{ $d->name }}</td>
@@ -64,6 +65,7 @@ $segment = request()->segment(1);
                 @php($values = $d->optionValues->mapWithKeys(function ($item) { return [$item['key'] => $item['value']]; }))
                 {{ implode(', ', array_values($values->toArray())) }}
               </td>
+              <td>{{$d->updated_at}} </td>
             </tr>
             @endforeach
           </tbody>
