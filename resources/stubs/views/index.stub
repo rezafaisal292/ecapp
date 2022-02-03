@@ -1,4 +1,6 @@
-
+@php
+$segment = request()->segment(1);
+@endphp
 @extends('adminlte::page')
 
 @section('title', 'AdminLTE')
@@ -8,13 +10,15 @@
 @stop
 
 @section('content')
+
+@include('$LOWER_NAME$::filter')
 <div class="row">
   <div class="col-12">
     <div class="card">
       <div class="card-header">
         <div class="row">
           <div class="col-md-6" style="text-align:left">
-            <h5>List Data</h5>
+            <!-- Total Data : {{$data->total()}}  -->
           </div>
           <div class="col-md-6" style="text-align:right">
             <button type="submit" class="btn btn-success btn-sm">
@@ -36,11 +40,30 @@
             </tr>
           </thead>
           <tbody>
-            
+             <!-- @foreach ($data as $d)
+            <tr>
+              <td>
+              @include('master-component.button-edit-delete')
+              </td>
+              
+            </tr>
+            @endforeach -->
           </tbody>
         </table>
       </div>
       <!-- /.card-body -->
+      <div class="card-footer clearfix float-right">
+
+        <div class="row">
+          <div class="col-6">
+
+          </div>
+          <div class="col-6 text-right">
+           
+              @include('master-component.button-add')
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

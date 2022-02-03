@@ -3,16 +3,15 @@ $segment = request()->segment(1);
 @endphp
 @extends('adminlte::page')
 
-
-@section('title', env('APP_NAME').'::Opsi')
+@section('title', 'AdminLTE')
 
 @section('content_header')
-<h1 class="m-0 text-dark">Opsi</h1>
+<h1 class="m-0 text-dark">MasterUser</h1>
 @stop
 
 @section('content')
 
-@include('opsi::filter')
+@include('masteruser::filter')
 <div class="row">
   <div class="col-12">
     <div class="card">
@@ -38,23 +37,22 @@ $segment = request()->segment(1);
           <thead>
             <tr>
               <th>Aksi</th>
-              <th>Opsi Group</th>
-              <th>Opsi Detail</th>
-              <th>TimeStamps</th>
+              <th>Nama</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Timestamp</th>
             </tr>
           </thead>
           <tbody>
-            @foreach ($data as $d)
+            @foreach($data as $d)
             <tr>
               <td>
-              @include('master-component.button-edit-delete')
+                @include('master-component.button-edit-delete')
               </td>
-              <td>{{ $d->name }}</td>
-              <td>
-                @php($values = $d->optionValues->mapWithKeys(function ($item) { return [$item['key'] => $item['value']]; }))
-                {{ implode(', ', array_values($values->toArray())) }}
-              </td>
-              <td>{{$d->updated_at}} </td>
+              <td> {{$d->name}}</td>
+              <td> {{$d->email}}</td>
+              <td> {{$d->roles->first()->display_name}}</td>
+              <td> {{$d->updated_at}}</td>
             </tr>
             @endforeach
           </tbody>
@@ -65,11 +63,10 @@ $segment = request()->segment(1);
 
         <div class="row">
           <div class="col-6">
-            {{ $data->links() }}
           </div>
           <div class="col-6 text-right">
-           
-              @include('master-component.button-add')
+
+            @include('master-component.button-add')
           </div>
         </div>
       </div>

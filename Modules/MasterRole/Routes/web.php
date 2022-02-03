@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +13,5 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('home', 'HomeController')->except('create','store','show','edit','update','destroy');
+    Route::resource('masterrole', 'MasterRoleController');
     });

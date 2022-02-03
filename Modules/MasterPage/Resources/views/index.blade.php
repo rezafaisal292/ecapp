@@ -42,7 +42,9 @@
           <tbody>
             @foreach($data as $d)
             <tr>
-              <td></td>
+            <td>
+              @include('master-component.button-edit-delete')
+              </td>
               <td>{{$d->nama}}</td>
               <td>{{$d->url}}</td>
               <td><i class="{{$d->icon}}"></i></td>

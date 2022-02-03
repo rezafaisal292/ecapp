@@ -30,6 +30,10 @@ class MasterPage extends Model
         }
         return $q->get();
     }
+    public function scopeUseRoute($query)
+    {
+        return $query->where('status', '1')->where('url','!=','#')->get();
+    }
 
     public function scopeFindByName($query, string $value)
     {

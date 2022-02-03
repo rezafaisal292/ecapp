@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,5 +14,5 @@
 
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('masterpage', 'MasterPageController');
+    Route::resource('masterpage', 'MasterPageController')->except('show');
     });

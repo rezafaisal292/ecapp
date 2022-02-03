@@ -8,7 +8,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Role;
+use App\Models\Permission;
+use App\Models\User;
+use Illuminate\Support\Facades\Route;
 
 class masterSeeder extends Seeder
 {
@@ -21,6 +24,8 @@ class masterSeeder extends Seeder
     {
 
         DB::table('users')->delete();
+        DB::table('roles')->delete();
+        DB::table('permissions')->delete();
         DB::table('master_page')->delete();
         DB::table('master_option_group')->delete();
         DB::table('master_option_value')->delete();
@@ -33,38 +38,95 @@ class masterSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+        DB::table('roles')->insert([
+            'name' => 'admin',
+            'display_name' => 'Admin',
+            'description' => null,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        $user = User::FindByName('admin');
+        $role = Role::FindByName('admin');
+        $listroute = [];
+        $used = ['index', 'create', 'show', 'edit', 'destroy'];
+        foreach (Route::getRoutes()->getRoutes() as $route) {
+            $action = $route->getAction();
+            if (array_key_exists('as', $action)) {
+                // You can also use explode('@', $action['controller']); here
+                // to separate the class name from the method
+
+                foreach ($used as $u) {
+                    if (preg_match("/" . $u . "/i", $action['as'])) {
+                        $listroute[] = $action['as'];
+                    }
+                }
+            }
+        }
+        foreach ($listroute as $lr) {
+   
+            DB::table('permissions')->insert([
+                'name' => $lr,
+                'display_name' =>  ucfirst(substr($lr,strpos($lr,'.')+1)),
+                'description' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+        $permission = Permission::get();
+
+        $user->attachRole('admin');
+        foreach ($permission as $p) {
+            $role->attachPermission($p->name);
+        }
 
 
         $mstPage = [
             [
                 'id' => Uuid::uuid4(), 'nama' => 'Settings', 'url' => '#', 'icon' => 'fas fa-fw fa-cogs', 'parent' => null,
-                'urutan' => 1, 'status' => '1', 'childs' => [ 
+                'urutan' => 1, 'status' => '1', 'childs' => [
                     [
-                    'id' => Uuid::uuid4(),
-                    'nama' => 'Master Page',
-                    'url' => 'masterpage',
-                    'icon' => null,
-                    'urutan' => 1,
-                    'status' => '1',
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
+                        'id' => Uuid::uuid4(),
+                        'nama' => 'Master Page',
+                        'url' => 'masterpage',
+                        'icon' => null,
+                        'urutan' => 1,
+                        'status' => '1',
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
                     ],
+
+                    [
+                        'id' => Uuid::uuid4(),
+                        'nama' => 'Opsi',
+                        'url' => 'opsi',
+                        'icon' => null,
+                        'urutan' => 2,
+                        'status' => '1',
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]
+                ],
+            ],
+
+            [
+                'id' => Uuid::uuid4(), 'nama' => 'User', 'url' => '#', 'icon' => 'fas fa-fw fa-user', 'parent' => null,
+                'urutan' => 2, 'status' => '1', 'childs' => [
                     [
                         'id' => Uuid::uuid4(),
                         'nama' => 'Master Role',
                         'url' => 'masterrole',
                         'icon' => null,
-                        'urutan' => 2,
+                        'urutan' => 1,
                         'status' => '1',
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ],
                     [
                         'id' => Uuid::uuid4(),
-                        'nama' => 'Opsi',
-                        'url' => 'opsi',
+                        'nama' => 'Master User',
+                        'url' => 'masteruser',
                         'icon' => null,
-                        'urutan' => 3,
+                        'urutan' => 2,
                         'status' => '1',
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
@@ -73,22 +135,7 @@ class masterSeeder extends Seeder
             ],
             [
                 'id' => Uuid::uuid4(), 'nama' => 'Log', 'url' => 'log', 'icon' => 'fas fa-fw fa-book', 'parent' => null,
-                'urutan' => 1, 'status' => '1', 'childs' => [],
-            ],
-            [
-                'id' => Uuid::uuid4(), 'nama' => 'User', 'url' => '#', 'icon' => 'fas fa-fw fa-user', 'parent' => null,
-                'urutan' => 1, 'status' => '1', 'childs' => [
-                    [
-                        'id' => Uuid::uuid4(),
-                        'nama' => 'Master User',
-                        'url' => 'masteruser',
-                        'icon' => null,
-                        'urutan' => 3,
-                        'status' => '1',
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]
-                ],
+                'urutan' => 3, 'status' => '1', 'childs' => [],
             ],
         ];
 
@@ -103,7 +150,7 @@ class masterSeeder extends Seeder
 
                 foreach ($childs as $child) {
                     $child['parent'] = $pageId->id;
-                     \Modules\MasterPage\Entities\MasterPage::create($child);
+                    \Modules\MasterPage\Entities\MasterPage::create($child);
                 }
             }
         }
@@ -146,8 +193,8 @@ class masterSeeder extends Seeder
                     ],
                 ]
             ],
-           
-          
+
+
             [
                 'id' => Str::uuid(), 'name' => 'status', 'created_at' => $now, 'updated_at' => $now,
                 'values' => [
@@ -161,7 +208,7 @@ class masterSeeder extends Seeder
                     ],
                 ]
             ],
-           
+
         ];
 
         foreach ($options as $option) {
@@ -175,6 +222,5 @@ class masterSeeder extends Seeder
                 DB::table('master_option_value')->insert($value);
             }
         }
-
     }
 }

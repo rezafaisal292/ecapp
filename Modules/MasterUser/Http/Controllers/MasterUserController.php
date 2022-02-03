@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Opsi\Http\Controllers;
+namespace Modules\MasterUser\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Opsi\Entities\OptionGroup;
+use App\Models\User;
 
-class OpsiController extends Controller
+class MasterUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,8 @@ class OpsiController extends Controller
      */
     public function index(Request $request)
     {
-        $data = OptionGroup::fetch($request);
-
-        return view('opsi::index', compact('data'));
+        $data = User::fetch($request);
+        return view('masteruser::index',compact('data'));
     }
 
     /**
@@ -26,9 +25,7 @@ class OpsiController extends Controller
      */
     public function create()
     {
-
-        $d = new OptionGroup;
-        return view('opsi::form',compact('d'));
+        return view('masteruser::form');
     }
 
     /**
@@ -48,7 +45,7 @@ class OpsiController extends Controller
      */
     public function show($id)
     {
-        return view('opsi::show');
+        return view('masteruser::show');
     }
 
     /**
@@ -56,10 +53,11 @@ class OpsiController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit(OptionGroup $opsi)
+    public function edit(User $masteruser)
     {
-        $d=$opsi;
-        return view('opsi::form',compact('d'));
+        dd($masteruser);
+        $d =$masteruser;
+        return view('masteruser::form',compact('d'));
     }
 
     /**
@@ -80,6 +78,6 @@ class OpsiController extends Controller
      */
     public function destroy($id)
     {
-        dd($id);
+        //
     }
 }

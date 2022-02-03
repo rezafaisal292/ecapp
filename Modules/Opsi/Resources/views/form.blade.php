@@ -11,9 +11,9 @@ if ($segment !== 'create' ) { $title = 'Ubah'; $method = 'put'; $action = ['opsi
 <h1 class="m-0 text-dark">Opsi</h1>
 @stop
 {{ Form::open(['route' => $action, 'method' => $method, 'class' => 'form-horizontal form-data', 'autocomplete' => 'off']) }}
-<div class="card card-success">
+<div class="card card-primary">
     <div class="card-header">
-    {{$title}} Data Opsi
+        {{$title}} Data Opsi
     </div>
     <div class="card-body">
         <div class="form-group row">
@@ -23,14 +23,14 @@ if ($segment !== 'create' ) { $title = 'Ubah'; $method = 'put'; $action = ['opsi
                 @foreach($d->optionValues as $v)
                 <div class="options" id="options{{ $loop->iteration }}">
                     <div class="row" style="margin-bottom:8px">
-                    <div class="col-sm-4">
-                                            {{ Form::text('keys[]', $v->key, ['class' => 'form-control', 'placeholder' => 'Key Opsi']) }}
-                                        <!-- </div> -->
+                        <div class="col-sm-4">
+                            {{ Form::text('keys[]', $v->key, ['class' => 'form-control', 'placeholder' => 'Key Opsi']) }}
+                            <!-- </div> -->
 
-                                        <!-- <div class="col-sm-4"> -->
-                                            {{ Form::text('values[]', $v->value, ['class' => 'form-control', 'placeholder' => 'Value Opsi']) }}
-                                        </div>
-            
+                            <!-- <div class="col-sm-4"> -->
+                            {{ Form::text('values[]', $v->value, ['class' => 'form-control', 'placeholder' => 'Value Opsi']) }}
+                        </div>
+
                         <div class="col-sm-4">
                             <a href="javascript:void(0);" class="btn btn-sm btn-info m-r-5 add" id="add{{ $loop->iteration }}">
                                 <i class="fa fa-plus"></i>
@@ -68,8 +68,8 @@ if ($segment !== 'create' ) { $title = 'Ubah'; $method = 'put'; $action = ['opsi
         </div>
     </div>
 
-    <div class="card-footer clearfix">
-
+    <div class="card-footer clearfix text-right">
+        @include('master-component.button-form')
     </div>
 </div>
 {{ Form::close() }}

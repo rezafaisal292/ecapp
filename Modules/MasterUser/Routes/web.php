@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('home', 'HomeController')->except('create','store','show','edit','update','destroy');
+    Route::resource('masteruser', 'MasterUserController')->except('show');
     });

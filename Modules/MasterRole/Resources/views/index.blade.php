@@ -3,33 +3,24 @@ $segment = request()->segment(1);
 @endphp
 @extends('adminlte::page')
 
-
-@section('title', env('APP_NAME').'::Opsi')
+@section('title', 'AdminLTE')
 
 @section('content_header')
-<h1 class="m-0 text-dark">Opsi</h1>
+    <h1 class="m-0 text-dark">Master Role</h1>
 @stop
 
 @section('content')
 
-@include('opsi::filter')
+@include('masterrole::filter')
 <div class="row">
   <div class="col-12">
     <div class="card">
       <div class="card-header">
         <div class="row">
           <div class="col-md-6" style="text-align:left">
-            Total Data : {{$data->total()}}
+            Total Data : {{$data->total()}} 
           </div>
-          <div class="col-md-6" style="text-align:right">
-            <button type="submit" class="btn btn-success btn-sm">
-              <i class="fas fa-file-excel"></i>&nbsp; Export XLS
-            </button>
-            &nbsp;
-            <button type="submit" class="btn btn-danger btn-sm">
-              <i class="fas fa-file-excel"></i>&nbsp; Export PDF
-            </button>
-          </div>
+          @include('master-component.button-export')
         </div>
       </div>
       <!-- /.card-header -->
@@ -38,23 +29,21 @@ $segment = request()->segment(1);
           <thead>
             <tr>
               <th>Aksi</th>
-              <th>Opsi Group</th>
-              <th>Opsi Detail</th>
-              <th>TimeStamps</th>
+              <th>Name</th>
+              <th>Display Name</th>
+              <th>Timestamp</th>
             </tr>
           </thead>
           <tbody>
-            @foreach ($data as $d)
+             @foreach ($data as $d)
             <tr>
               <td>
               @include('master-component.button-edit-delete')
               </td>
-              <td>{{ $d->name }}</td>
-              <td>
-                @php($values = $d->optionValues->mapWithKeys(function ($item) { return [$item['key'] => $item['value']]; }))
-                {{ implode(', ', array_values($values->toArray())) }}
-              </td>
-              <td>{{$d->updated_at}} </td>
+              <td>{{$d->name}}</td>
+              <td>{{$d->display_name}}</td>
+              <td>{{$d->updated_at}}</td>
+              
             </tr>
             @endforeach
           </tbody>
@@ -65,7 +54,7 @@ $segment = request()->segment(1);
 
         <div class="row">
           <div class="col-6">
-            {{ $data->links() }}
+
           </div>
           <div class="col-6 text-right">
            

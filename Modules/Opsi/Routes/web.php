@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('opsi', 'OpsiController');
+    Route::resource('opsi', 'OpsiController')->except('show');
     });

@@ -1,13 +1,14 @@
 <?php
 
-namespace Modules\Opsi\Http\Controllers;
+namespace Modules\MasterRole\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Opsi\Entities\OptionGroup;
+use App\Models\Role;
+use Modules\MasterPage\Entities\MasterPage;
 
-class OpsiController extends Controller
+class MasterRoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +16,8 @@ class OpsiController extends Controller
      */
     public function index(Request $request)
     {
-        $data = OptionGroup::fetch($request);
-
-        return view('opsi::index', compact('data'));
+    $data = Role::fetch($request);
+        return view('masterrole::index',compact('data'));
     }
 
     /**
@@ -26,9 +26,7 @@ class OpsiController extends Controller
      */
     public function create()
     {
-
-        $d = new OptionGroup;
-        return view('opsi::form',compact('d'));
+        return view('masterrole::form');
     }
 
     /**
@@ -39,6 +37,7 @@ class OpsiController extends Controller
     public function store(Request $request)
     {
         //
+        return redirect('masterrole');
     }
 
     /**
@@ -48,7 +47,7 @@ class OpsiController extends Controller
      */
     public function show($id)
     {
-        return view('opsi::show');
+        return view('masterrole::show');
     }
 
     /**
@@ -56,10 +55,11 @@ class OpsiController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit(OptionGroup $opsi)
+    public function edit(Role $masterrole)
     {
-        $d=$opsi;
-        return view('opsi::form',compact('d'));
+        $d=$masterrole;
+        $page =MasterPage::UseRoute();
+        return view('masterrole::form',compact('d','page'));
     }
 
     /**
@@ -71,6 +71,7 @@ class OpsiController extends Controller
     public function update(Request $request, $id)
     {
         //
+        return redirect('masterrole');
     }
 
     /**
@@ -80,6 +81,8 @@ class OpsiController extends Controller
      */
     public function destroy($id)
     {
-        dd($id);
+        //
+
+        return redirect('masterrole');
     }
 }
