@@ -30,14 +30,17 @@ class masterSeeder extends Seeder
         DB::table('master_option_group')->delete();
         DB::table('master_option_value')->delete();
 
-        DB::table('users')->insert([
-            'id' => Uuid::uuid4(),
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('12345678'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        $listUsers = [
+            [
+                'id' => Uuid::uuid4(),
+                'name' => 'admin',
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('12345678'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'role' => 'admin',
+            ]
+        ];
         DB::table('roles')->insert([
             'name' => 'admin',
             'display_name' => 'Admin',
@@ -45,8 +48,6 @@ class masterSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-        $user = User::FindByName('admin');
-        $role = Role::FindByName('admin');
         $listroute = [];
         $used = ['index', 'create', 'show', 'edit', 'destroy'];
         foreach (Route::getRoutes()->getRoutes() as $route) {
@@ -63,22 +64,41 @@ class masterSeeder extends Seeder
             }
         }
         foreach ($listroute as $lr) {
-   
+
             DB::table('permissions')->insert([
                 'name' => $lr,
-                'display_name' =>  ucfirst(substr($lr,strpos($lr,'.')+1)),
+                'display_name' =>  ucfirst(substr($lr, strpos($lr, '.') + 1)),
                 'description' => null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
         }
-        $permission = Permission::get();
+        $roles = Role::get();
+        $permissions = Permission::get();
+        foreach ($listUsers as $lu) {
+            $role = $lu['role'];
+            unset($lu['role']);
+            DB::table('users')->insert($lu);
+            foreach ($roles as $r) {
+                foreach ($permissions as $p) {
+                    $r->attachPermission($p->name);
+                }
+                if ($role == $r->name) {
+                    $user = User::FindByName($lu['name']);
+                    $user->attachRole($r->name);
 
-        $user->attachRole('admin');
-        foreach ($permission as $p) {
-            $role->attachPermission($p->name);
+                    $permission_role = DB::table('permission_role')->where('role_id',$r->id)->get();
+                    foreach ($permission_role as $pr)
+                    {
+                        $permission = Permission::findById($pr->permission_id);
+                        $user->attachPermission($permission);
+                    }
+                }
+               
+            }
         }
 
+     
 
         $mstPage = [
             [
@@ -107,9 +127,8 @@ class masterSeeder extends Seeder
                     ]
                 ],
             ],
-
             [
-                'id' => Uuid::uuid4(), 'nama' => 'User', 'url' => '#', 'icon' => 'fas fa-fw fa-user', 'parent' => null,
+                'id' => Uuid::uuid4(), 'nama' => 'User', 'url' => '#', 'icon' => 'fas fa-fw fa-users', 'parent' => null,
                 'urutan' => 2, 'status' => '1', 'childs' => [
                     [
                         'id' => Uuid::uuid4(),

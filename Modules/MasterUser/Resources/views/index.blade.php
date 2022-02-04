@@ -3,10 +3,10 @@ $segment = request()->segment(1);
 @endphp
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
+@section('title', env('APP_NAME').'::Master User')
 
 @section('content_header')
-<h1 class="m-0 text-dark">MasterUser</h1>
+<h1 class="m-0 text-dark">Master User</h1>
 @stop
 
 @section('content')

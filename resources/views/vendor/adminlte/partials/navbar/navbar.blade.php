@@ -13,7 +13,7 @@
         {{-- Custom left links --}}
         @yield('content_top_nav_left')
     </ul>
-
+    {{Auth::user()->name}}, {{Auth::user()->roles->first()->display_name}}
     {{-- Navbar right links --}}
     <ul class="navbar-nav ml-auto">
         {{-- Custom right links --}}

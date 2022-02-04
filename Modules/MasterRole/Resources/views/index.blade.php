@@ -3,7 +3,8 @@ $segment = request()->segment(1);
 @endphp
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
+@section('title', env('APP_NAME').'::Master Role')
+
 
 @section('content_header')
     <h1 class="m-0 text-dark">Master Role</h1>

@@ -5,8 +5,11 @@ $segment = request()->segment(1);
 
 @section('title', 'AdminLTE')
 
+
+@section('title', env('APP_NAME').'::$STUDLY_NAME$')
+
 @section('content_header')
-    <h1 class="m-0 text-dark">$STUDLY_NAME$</h1>
+    <h1 class="m-0 text-dark">{{$module_name}}</h1>
 @stop
 
 @section('content')
