@@ -16,8 +16,9 @@ if ($segment !== 'create' ) { $title = 'Ubah'; $method = 'put'; $action = ['mast
         {{$title}} Data MasterUser
     </div>
     <div class="card-body">
-        <div class="form-group row">
-            
+        <div class="form-group ">
+            {{ Form::fgText('Divisi Kode', 'divisi_kode', $d->divisi_kode, ['class' => 'form-control'], null, 'text', true) }}
+                
         </div>
     </div>
 

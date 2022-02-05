@@ -3,8 +3,7 @@
 namespace Modules\MasterPage\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-
-
+use Illuminate\Support\Facades\DB;
 
 class MasterPage extends Model
 {
@@ -30,10 +29,13 @@ class MasterPage extends Model
         }
         return $q->get();
     }
-    public function scopeUseRoute($query)
+    public function scopeUsePage($query)
     {
         return $query->where('status', '1')->where('url','!=','#')->get();
     }
+
+   
+
 
     public function scopeFindByName($query, string $value)
     {

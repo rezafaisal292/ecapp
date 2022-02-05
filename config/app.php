@@ -175,7 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\OptionServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
+        App\Providers\HtmlServiceProvider::class,
 
 
     ],
@@ -233,8 +233,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Form' => 'Collective\Html\FormFacade',
-        'Html' => 'Collective\Html\HtmlFacade',
 
     ],
 

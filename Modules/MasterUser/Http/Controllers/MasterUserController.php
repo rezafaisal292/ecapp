@@ -25,7 +25,9 @@ class MasterUserController extends Controller
      */
     public function create()
     {
-        return view('masteruser::form');
+        $d=new User;
+        
+        return view('masteruser::form',compact('d'));
     }
 
     /**

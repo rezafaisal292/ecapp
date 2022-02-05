@@ -2,10 +2,13 @@
 
 namespace Modules\MasterRole\Http\Controllers;
 
+use App\Models\Permission;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Modules\MasterPage\Entities\MasterPage;
 
 class MasterRoleController extends Controller
@@ -16,8 +19,8 @@ class MasterRoleController extends Controller
      */
     public function index(Request $request)
     {
-    $data = Role::fetch($request);
-        return view('masterrole::index',compact('data'));
+        $data = Role::fetch($request);
+        return view('masterrole::index', compact('data'));
     }
 
     /**
@@ -26,7 +29,10 @@ class MasterRoleController extends Controller
      */
     public function create()
     {
-        return view('masterrole::form');
+        $d = new Role;
+        $page = MasterPage::UsePage();
+        $permission = Permission::get();
+        return view('masterrole::form', compact('d', 'page', 'permission'));
     }
 
     /**
@@ -36,8 +42,6 @@ class MasterRoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        return redirect('masterrole');
     }
 
     /**
@@ -57,9 +61,10 @@ class MasterRoleController extends Controller
      */
     public function edit(Role $masterrole)
     {
-        $d=$masterrole;
-        $page =MasterPage::UseRoute();
-        return view('masterrole::form',compact('d','page'));
+        $d = $masterrole;
+        $page = MasterPage::UsePage();
+        $permission = Permission::get();
+        return view('masterrole::form', compact('d', 'page', 'permission'));
     }
 
     /**
@@ -68,9 +73,29 @@ class MasterRoleController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $masterrole)
     {
-        //
+
+        DB::table('permission_role')->where('role_id', $masterrole->id)->delete();
+        foreach ($masterrole->users as $userid) {
+            DB::table('permission_user')->where('user_id', $userid->id)->delete();
+        }
+
+        $listPermission = $request->only(['permission']);
+        if (count($listPermission) > 0) {
+            foreach ($listPermission['permission'] as $lp) {
+                $permission = Permission::find($lp);
+                $masterrole->attachPermission($permission->name);
+
+                foreach ($masterrole->users as $userid) {
+                    $permission = Permission::find($lp);
+                    $user = User::find($userid->id);
+                    $user->attachPermission($permission->name);
+                }
+                
+            }
+          
+        }
         return redirect('masterrole');
     }
 
