@@ -2,6 +2,7 @@
 
 namespace Modules\MasterUser\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -57,9 +58,9 @@ class MasterUserController extends Controller
      */
     public function edit(User $masteruser)
     {
-        dd($masteruser);
         $d =$masteruser;
-        return view('masteruser::form',compact('d'));
+        $role = to_dropdown(Role::get(),'id','display_name');
+        return view('masteruser::form',compact('d','role'));
     }
 
     /**

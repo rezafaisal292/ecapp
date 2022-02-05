@@ -1,3 +1,6 @@
+@php
+$segment = request()->segment(1);
+@endphp
 @extends('adminlte::page')
 
 @section('title', env('APP_NAME').'::Master Page')
@@ -54,6 +57,18 @@
         </table>
       </div>
       <!-- /.card-body -->
+      <div class="card-footer clearfix float-right">
+
+        <div class="row">
+          <div class="col-6">
+
+          </div>
+          <div class="col-6 text-right">
+           
+              @include('master-component.button-add')
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

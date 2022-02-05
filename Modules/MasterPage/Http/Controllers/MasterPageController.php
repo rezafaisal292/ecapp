@@ -25,7 +25,8 @@ class MasterPageController extends Controller
      */
     public function create()
     {
-        return view('masterpage::create');
+        $d = new MasterPage();
+        return view('masterpage::form',compact('d'));
     }
 
     /**
@@ -53,9 +54,10 @@ class MasterPageController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit($id)
+    public function edit(MasterPage $masterpage)
     {
-        return view('masterpage::edit');
+        $d = $masterpage;
+        return view('masterpage::form',compact('d'));
     }
 
     /**
