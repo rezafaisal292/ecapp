@@ -50,7 +50,7 @@ class MasterUserController extends Controller
 
         $user->attachPermissions($role->permissions->pluck('name'));
 
-        return redirect('masteruser');
+        return redirect('masteruser')->with(['success' => 'Berhasil Disimpan']);
     }
 
     /**

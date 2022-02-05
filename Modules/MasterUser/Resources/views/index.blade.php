@@ -12,6 +12,8 @@ $segment = request()->segment(1);
 @section('content')
 
 @include('masteruser::filter')
+
+@include('master-component.alert')
 <div class="row">
   <div class="col-12">
     <div class="card">
