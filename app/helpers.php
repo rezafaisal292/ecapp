@@ -35,7 +35,8 @@ if (!function_exists('to_dropdown')) {
         $options = [];
 
         if ($blank_option) {
-            $options[''] = trans('label.choose_one');
+            // $options[''] = trans('label.choose_one');
+            $options[''] = 'Pilih Salah Satu';
         }
 
         if (!is_array($collections)) {

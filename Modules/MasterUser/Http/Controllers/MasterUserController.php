@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class MasterUserController extends Controller
 {
@@ -16,6 +17,7 @@ class MasterUserController extends Controller
      */
     public function index(Request $request)
     {
+
         $data = User::fetch($request);
         return view('masteruser::index',compact('data'));
     }
@@ -26,9 +28,9 @@ class MasterUserController extends Controller
      */
     public function create()
     {
-        $d=new User;
-        
-        return view('masteruser::form',compact('d'));
+        $d =new User;
+        $role = to_dropdown(Role::get(),'id','display_name');
+        return view('masteruser::form',compact('d','role'));
     }
 
     /**
@@ -37,8 +39,18 @@ class MasterUserController extends Controller
      * @return Renderable
      */
     public function store(Request $request)
-    {
-        //
+    {       
+        
+        $request['password'] =  Hash::make('12345678');
+        User::create($request->only('name','email','password'));
+        $role = Role::find($request->role);
+        $user = User::FindByName($request->name);
+
+        $user->attachRole($role->name);
+
+        $user->attachPermissions($role->permissions->pluck('name'));
+
+        return redirect('masteruser');
     }
 
     /**
@@ -69,9 +81,12 @@ class MasterUserController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $masteruser)
     {
-        //
+
+        $masteruser->update($request->all());
+
+        return redirect('masteruser')->with('success');
     }
 
     /**

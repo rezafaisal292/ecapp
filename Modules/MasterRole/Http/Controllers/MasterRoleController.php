@@ -42,6 +42,15 @@ class MasterRoleController extends Controller
      */
     public function store(Request $request)
     {
+        $request['display_name'] = ucfirst($request->name);
+        Role::create($request->only('name','display_name'));
+        $role = Role::FindByName($request->name);
+        foreach($request->permission as $p)
+        {            
+            $permission = Permission::find($p);
+            $role->attachPermission($permission->name);
+        }
+        return redirect('masterrole');
     }
 
     /**
