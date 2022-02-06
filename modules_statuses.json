@@ -3,5 +3,6 @@
     "MasterPage": true,
     "Opsi": true,
     "MasterUser": true,
-    "MasterRole": true
+    "MasterRole": true,
+    "Test1": true
 }

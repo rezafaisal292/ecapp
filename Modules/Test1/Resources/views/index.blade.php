@@ -6,14 +6,14 @@ $segment = request()->segment(1);
 @section('title', 'AdminLTE')
 
 
-@section('title', env('APP_NAME').'::$STUDLY_NAME$')
+@section('title', env('APP_NAME').'::Test1')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">$STUDLY_NAME$</h1>
+    <h1 class="m-0 text-dark">Test1</h1>
 @stop
 
 @section('content')
-@include('$LOWER_NAME$::filter')
+@include('test1::filter')
     @include('master-component.alert')
 <div class="row">
   <div class="col-12">

@@ -45,11 +45,8 @@ class MasterUserController extends Controller
         User::create($request->only('name','email','password'));
         $role = Role::find($request->role);
         $user = User::FindByName($request->name);
-
         $user->attachRole($role->name);
-
         $user->attachPermissions($role->permissions->pluck('name'));
-
         return redirect('masteruser')->with(['success' => 'Berhasil Disimpan']);
     }
 
@@ -86,7 +83,7 @@ class MasterUserController extends Controller
 
         $masteruser->update($request->all());
 
-        return redirect('masteruser')->with('success');
+        return redirect('masteruser')->with(['success' => 'Berhasil Diubah']);
     }
 
     /**
