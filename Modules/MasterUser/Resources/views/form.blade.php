@@ -17,6 +17,7 @@ if ($segment !== 'create' ) { $title = 'Ubah'; $method = 'put'; $action = ['mast
     </div>
     <div class="card-body">
         <div class="form-group ">
+            {{ Form::fgText('Username', 'username', $d->username, ['class' => 'form-control'], null, 'text', true) }}
             {{ Form::fgText('Nama', 'name', $d->name, ['class' => 'form-control'], null, 'text', true) }}
             {{ Form::fgText('Email', 'email', $d->email, ['class' => 'form-control'], null, 'text', true) }}
             {{ Form::fgSelect('Role', 'role',$role, $d->roles, ['class' => 'form-control'], null, 'text', true) }}

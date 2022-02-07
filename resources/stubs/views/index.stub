@@ -14,7 +14,6 @@ $segment = request()->segment(1);
 
 @section('content')
 @include('$LOWER_NAME$::filter')
-    @include('master-component.alert')
 <div class="row">
   <div class="col-12">
     <div class="card">

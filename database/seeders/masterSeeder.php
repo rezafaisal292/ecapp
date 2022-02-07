@@ -33,6 +33,7 @@ class masterSeeder extends Seeder
         $listUsers = [
             [
                 'id' => Uuid::uuid4(),
+                'username' => 'admin',
                 'name' => 'admin',
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make('12345678'),
