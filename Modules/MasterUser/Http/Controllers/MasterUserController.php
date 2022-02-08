@@ -9,8 +9,10 @@ use Illuminate\Routing\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
+
 class MasterUserController extends Controller
 {
+ 
     /**
      * Display a listing of the resource.
      * @return Renderable
@@ -19,7 +21,7 @@ class MasterUserController extends Controller
     {
 
         $data = User::fetch($request);
-        return view('masteruser::index',compact('data'));
+        return view('masteruser::index', compact('data'));
     }
 
     /**
@@ -28,9 +30,9 @@ class MasterUserController extends Controller
      */
     public function create()
     {
-        $d =new User;
-        $role = to_dropdown(Role::get(),'id','display_name');
-        return view('masteruser::form',compact('d','role'));
+        $d = new User;
+        $role = to_dropdown(Role::get(), 'id', 'display_name');
+        return view('masteruser::form', compact('d', 'role'));
     }
 
     /**
@@ -39,17 +41,17 @@ class MasterUserController extends Controller
      * @return Renderable
      */
     public function store(Request $request)
-    {       
+    {
 
-        $att = $request->username.', '.$request->name;
+        $att = $request->username . ', ' . $request->name;
         $request['password'] =  Hash::make('12345678');
-        User::create($request->only('username','name','email','password'));
+        User::create($request->only('username', 'name', 'email', 'password'));
 
         $role = Role::find($request->role);
         $user = User::FindByName($request->name);
         $user->attachRole($role->name);
         $user->attachPermissions($role->permissions->pluck('name'));
-        return redirect('masteruser')->with(['success' => '`'.$att.'` Berhasil Disimpan']);
+        return redirect('masteruser')->with(['success' => '`' . $att . '` Berhasil Disimpan']);
     }
 
     /**
@@ -69,9 +71,9 @@ class MasterUserController extends Controller
      */
     public function edit(User $masteruser)
     {
-        $d =$masteruser;
-        $role = to_dropdown(Role::get(),'id','display_name');
-        return view('masteruser::form',compact('d','role'));
+        $d = $masteruser;
+        $role = to_dropdown(Role::get(), 'id', 'display_name');
+        return view('masteruser::form', compact('d', 'role'));
     }
 
     /**
@@ -83,10 +85,10 @@ class MasterUserController extends Controller
     public function update(Request $request, User $masteruser)
     {
 
-        $att = $masteruser->username.', '.$masteruser->name;
+        $att = $masteruser->username . ', ' . $masteruser->name;
         $masteruser->update($request->all());
 
-        return redirect('masteruser')->with(['success' => '`'.$att.'` Berhasil diubah']);
+        return redirect('masteruser')->with(['success' => '`' . $att . '` Berhasil diubah']);
     }
 
     /**
@@ -96,13 +98,12 @@ class MasterUserController extends Controller
      */
     public function destroy(User $masteruser)
     {
-        $att = $masteruser->username.', '.$masteruser->name;
+        $att = $masteruser->username . ', ' . $masteruser->name;
         $role = $masteruser->roles->first()->name;
         $masteruser->detachRole($role);
-        $permission=$masteruser->permissions->pluck('name');
+        $permission = $masteruser->permissions->pluck('name');
         $masteruser->detachPermissions($permission);
         $masteruser->delete();
-        return redirect('masteruser')->with(['success' => '`'.$att.'` Berhasil dihapus']);
-
+        return redirect('masteruser')->with(['success' => '`' . $att . '` Berhasil dihapus']);
     }
 }

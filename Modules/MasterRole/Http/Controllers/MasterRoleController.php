@@ -50,7 +50,7 @@ class MasterRoleController extends Controller
             $permission = Permission::find($p);
             $role->attachPermission($permission->name);
         }
-        return redirect('masterrole');
+        return redirect('masterrole')->with(['success'=> '`'.$request->name.'` Berhasil disimpan']);
     }
 
     /**
@@ -105,7 +105,7 @@ class MasterRoleController extends Controller
             }
           
         }
-        return redirect('masterrole');
+        return redirect('masterrole')->with(['success'=> '`'.$masterrole->name.'` Berhasil diubah']);
     }
 
     /**

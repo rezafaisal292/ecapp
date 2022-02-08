@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,6 @@
 */
 
 
-Route::group(['middleware' => ['auth']], function() {
+Route::group(['middleware' =>['auth',permissionList()]], function() {
     Route::resource('masterrole', 'MasterRoleController');
     });
